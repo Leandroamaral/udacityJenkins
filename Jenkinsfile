@@ -15,6 +15,7 @@ pipeline {
 
                 echo $READY
               '''
+              return $READY
           }
 
         }
