@@ -12,10 +12,9 @@ pipeline {
                 then
                   READY=False
                 fi
-
                 echo $READY
+
               '''
-              return $READY
           }
 
         }
