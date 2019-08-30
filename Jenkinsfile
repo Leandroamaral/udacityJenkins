@@ -3,21 +3,15 @@ pipeline {
   stages {
     stage('Build') {
       steps {
-        timeout(time: 120) {
-          waitUntil() {
             sh '''
                 echo READY=$(kubectl get deploy udacity97 -o json | jq '.status.conditions[] | select(.reason == "MinimumReplicasAvailable") | .status' | tr -d '"')
 
-                if [ "$READY" != "True" ]
-                then
-                  READY=False
-                fi
-                echo $READY
+            while [[ "$READY" != "True" ]]; do
+                echo READY=$(kubectl get deploy $DEPLOYMENTNAME -o json | jq '.status.conditions[] | select(.reason == "MinimumReplicasAvailable") | .status' | tr -d '"')
+                sleep 5
+            done
 
               '''
-          }
-
-        }
 
       }
     }
